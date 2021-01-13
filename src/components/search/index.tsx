@@ -11,6 +11,7 @@ import React, {useState, useEffect} from 'react'
     [x] mostrar datos del stado
     [x] traer los datos y poner en el stado 
     [x] crear un useeffect cuando se varia la search se busca
+    [] feature selecionar de la sugerencia y se pone en el buscador
 */
 
 
