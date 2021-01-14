@@ -8,7 +8,7 @@ interface ITodo{
 }
 
 interface TodoProps{
-    todos: Itodo
+    todo: Itodo
 }
 
 type ApiDateType = {
