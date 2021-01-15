@@ -1,4 +1,5 @@
 import React from "react";
+import "../../app.css";
 
 type Props = TodoProps & {
   updateTodo: (todo: ITodo) => void;
@@ -12,11 +13,11 @@ const Todo: React.FC<Props> = ({ todo, updateTodo, deleteTodo }) => {
     <div>
       <div>
         <h1 className={checkTodo}>{todo.name}</h1>
-        <span className={checkTodo}></span>
+        <span className={checkTodo}>{todo.description}</span>
       </div>
       <div>
         <button onClick={() => updateTodo(todo)}>Complete</button>
-        <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+        <button onClick={() => deleteTodo(todo._id)}>Delete</button>
       </div>
     </div>
   );

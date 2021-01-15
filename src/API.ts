@@ -1,22 +1,25 @@
 const baseUrl: string = "http://localhost:4000";
 
-export const getTodos = async (): Promise<void> => {
+export const getTodos = async (): Promise<any> => {
   try {
-    await fetch(`${baseUrl}/todo`)
+    let todos = await fetch(`${baseUrl}/todos`)
       .then((res) => res.json())
       .then((data) => data)
       .catch((error) => console.error(error));
+
+    return todos;
   } catch (error) {
     throw new Error(error);
   }
 };
 
-export const addTodo = async (formData: ITodo): Promise<void> => {
+export const addTodo = async (formData: ITodo): Promise<any> => {
   try {
     const todo: Omit<ITodo, "_id"> = {
       name: formData.name,
       description: formData.description,
       status: false,
+      folder: "casa",
     };
 
     await fetch(`${baseUrl}/add-todo`, {
@@ -34,18 +37,19 @@ export const addTodo = async (formData: ITodo): Promise<void> => {
   }
 };
 
-export const updateTodo = async (todo: ITodo): Promise<void> => {
+export const updateTodo = async (todo: ITodo): Promise<any> => {
   try {
     const todoUpdate: Pick<ITodo, "status"> = {
       status: true,
     };
+
     await fetch(`${baseUrl}/edit-todo/${todo._id}`, {
       method: "PUT",
       body: JSON.stringify({
-        status: todoUpdate,
+        status: true,
       }),
       headers: {
-        "content-type": "aplication/json; charset=UTF-8",
+        "content-type": "application/json; charset=UTF-8",
       },
     })
       .then((res) => res.json())
@@ -55,7 +59,7 @@ export const updateTodo = async (todo: ITodo): Promise<void> => {
   }
 };
 
-export const deleteTodo = async (_id: string): Promise<void> => {
+export const deleteTodo = async (_id: string): Promise<any> => {
   try {
     await fetch(`${baseUrl}/delete-todo/${_id}`, {
       method: "DELETE",
