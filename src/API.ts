@@ -15,6 +15,7 @@ export const getTodos = async (): Promise<any> => {
 
 export const addTodo = async (formData: ITodo): Promise<any> => {
   try {
+    let response, addTodo;
     const todo: Omit<ITodo, "_id"> = {
       name: formData.name,
       description: formData.description,
@@ -29,9 +30,15 @@ export const addTodo = async (formData: ITodo): Promise<any> => {
         "content-Type": "application/json",
       },
     })
-      .then((res) => res.json())
-      .catch((error) => console.error(error))
-      .then((res) => console.log("success:", res));
+      .then((res) => {
+        response = res;
+        return res.json();
+      })
+      .then((data) => (addTodo = data));
+    return {
+      response,
+      addTodo,
+    };
   } catch (error) {
     throw new Error(error);
   }
@@ -39,9 +46,7 @@ export const addTodo = async (formData: ITodo): Promise<any> => {
 
 export const updateTodo = async (todo: ITodo): Promise<any> => {
   try {
-    const todoUpdate: Pick<ITodo, "status"> = {
-      status: true,
-    };
+    let response, updateTodo;
 
     await fetch(`${baseUrl}/edit-todo/${todo._id}`, {
       method: "PUT",
@@ -52,8 +57,19 @@ export const updateTodo = async (todo: ITodo): Promise<any> => {
         "content-type": "application/json; charset=UTF-8",
       },
     })
-      .then((res) => res.json())
-      .then((json) => console.log(json));
+      .then((res) => {
+        response = res;
+        return res.json();
+      })
+
+      .then((data) => {
+        updateTodo = data;
+      });
+
+    return {
+      response,
+      updateTodo,
+    };
   } catch (error) {
     throw new Error(error);
   }
@@ -61,9 +77,19 @@ export const updateTodo = async (todo: ITodo): Promise<any> => {
 
 export const deleteTodo = async (_id: string): Promise<any> => {
   try {
+    let response, deleteTodo;
     await fetch(`${baseUrl}/delete-todo/${_id}`, {
       method: "DELETE",
-    });
+    })
+      .then((res) => {
+        response = res;
+        return res.json();
+      })
+      .then((data) => (deleteTodo = data));
+    return {
+      response,
+      deleteTodo,
+    };
   } catch (error) {
     throw new Error(error);
   }

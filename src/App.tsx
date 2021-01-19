@@ -19,35 +19,35 @@ const App: React.FC = () => {
   const handleSaveTodo = (e: React.FormEvent, formData: ITodo): void => {
     e.preventDefault();
     addTodo(formData)
-      .then(({ status, data }) => {
-        if (status !== 201) {
+      .then(({ response, addTodo }) => {
+        if (response.status !== 201) {
           throw new Error("Error! Todo nos saved");
         }
-        setTodos(data.todos);
+        setTodos(addTodo.todos);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
 
-  const handleUpdateTodo = (todo: ITodo): void => {
-    updateTodo(todo)
-      .then(({ status, data }) => {
-        if (status !== 200) {
+  const handleUpdateTodo = async (todo: ITodo): Promise<any> => {
+    await updateTodo(todo)
+      .then(({ updateTodo, response }) => {
+        if (response.status !== 200) {
           throw new Error("Error! Todo not update");
         }
-        setTodos(data.todos);
+        setTodos(updateTodo.todos);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
 
   const handleDeleteTodo = (_id: string): void => {
     deleteTodo(_id)
-      .then(({ status, data }) => {
-        if (status !== 200) {
+      .then(({ response, deleteTodo }) => {
+        if (response.status !== 200) {
           throw new Error("Error! Todo not deleted");
         }
-        setTodos(data.todos);
+        setTodos(deleteTodo.todos);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
 
   return (
